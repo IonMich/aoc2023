@@ -1,2 +1,6 @@
 **/inputs/
 .vscode/
+
+# C# ignore
+[Bb]in/
+[Oo]bj/
