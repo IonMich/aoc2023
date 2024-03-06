@@ -4,3 +4,6 @@
 # C# ignore
 [Bb]in/
 [Oo]bj/
+
+# Node.js ignore
+node_modules/
