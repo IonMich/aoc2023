@@ -12,11 +12,9 @@ fn process_line(line: &str, ceilings: &mut Vec<i32>, current_depth: i32) -> (i32
                 line_weight += ceilings[j];
                 contributions += 1;
                 ceilings[j] -= 1;
-                
             }
             "#" => {
                 ceilings[j] = current_depth-1;
-                
             }
             _ => {}
         }
@@ -54,5 +52,3 @@ fn main() {
     }
     println!("{}", total_weight + contributions*(height as i32));
 }
-
-
