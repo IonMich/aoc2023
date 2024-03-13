@@ -31,7 +31,6 @@ int print_file(char *filename) {
     max += EXTRA_BYTES; // Add extra bytes to the buffer
     char line[max];
     int total_hash=0;
-    int seed_hash=0;
     fgets(line, max, file);
     char *token = strtok(line, ",");
     while (token != NULL) {
