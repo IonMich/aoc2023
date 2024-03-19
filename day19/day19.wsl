@@ -1,0 +1,124 @@
+#!/usr/bin/env wolframscript
+(* ::Package:: *)
+
+(* ::Input:: *)
+(*data = Import["inputs\\input.txt","List"];*)
+
+
+(* ::Input:: *)
+(*workflows = data[[;;FirstPosition[data,""][[1]]-1]];*)
+
+
+(* ::Input:: *)
+(*ratings = data[[FirstPosition[data,""][[1]]+1;;]];*)
+
+
+(* ::Input:: *)
+(*workflows[[1]]*)
+
+
+(* ::Input:: *)
+(*Head@workflows[[1]]*)
+
+
+(* ::Input:: *)
+(*workflowElements = StringSplit[#,"{"]& /@workflows;*)
+
+
+(* ::Input:: *)
+(*workFlowElementsParsed={First[#],StringSplit[StringTrim[Last[#],("{"|"}")],","]}&/@workflowElements;*)
+
+
+(* ::Input:: *)
+(*workFlowMap =AssociationThread@@Transpose@workFlowElementsParsed;*)
+
+
+(* ::Input:: *)
+(*applyRules[rules_,ObjectRating_]:=Module[{ruleCondStr,ruleElem},*)
+(*If[*)
+(*StringContainsQ[rules[[1]],":"],*)
+(*{ruleCondStr,ruleElem}=StringSplit[rules[[1]],":"];*)
+(*If[*)
+(*passesCondition[ruleCondStr,ObjectRating],*)
+(*Return[applyElement[ruleElem,ObjectRating]],*)
+(*Return[applyRules[rules[[2;;]],ObjectRating]]*)
+(*],*)
+(*Return[applyElement[rules[[1]],ObjectRating]]*)
+(*]*)
+(*]*)
+(*applyElement[element_,ObjectRating_]:=Module[{},*)
+(*If[*)
+(*UpperCaseQ[element],*)
+(*Return[element],*)
+(*Return[applyRules[workFlowMap[element],ObjectRating]]*)
+(*]*)
+(*]*)
+(*passesCondition[ruleCondStr_,ObjectRating_]:=Module[{},*)
+(*Return[ToExpression[StringReplace[ruleCondStr,ObjectRating]]]*)
+(*]*)
+
+
+(* ::Input:: *)
+(*ratingsParsed = First[#]->Last[#]& @ StringSplit[#,"="]&/@StringSplit[StringTrim[#,("{"|"}")],","]&/@ratings;*)
+
+
+(* ::Input:: *)
+(*ObjectsQ[obj_]:=applyRules[workFlowMap["in"],obj]=="A"*)
+
+
+(* ::Input:: *)
+(*Total[Values[Select[ratingsParsed,ObjectsQ]]//ToExpression,Infinity]*)
+
+
+(* ::Text:: *)
+(*Part 2*)
+
+
+(* ::Input:: *)
+(*countRatingsRangeForRules[workflowName_,index_,ratingRange_]:=*)
+(*Module[{ruleCondStr,ruleElem,rangeSatisfies,rangeNotSatisfies,countSatisfies,countNotSatisfies},*)
+(*If[*)
+(*StringContainsQ[workFlowMap[workflowName][[index]],":"],*)
+(*(*conditional rule*)*)
+(*{ruleCondStr,ruleElem}=StringSplit[workFlowMap[workflowName][[index]],":"];*)
+(*{rangeSatisfies,rangeNotSatisfies} =getTransformedRanges[ruleCondStr,ratingRange];*)
+(*countSatisfies=applyElemToRangeAndCount[ruleElem,rangeSatisfies];*)
+(*countNotSatisfies=countRatingsRangeForRules[workflowName,index+1,rangeNotSatisfies];*)
+(*Return[countSatisfies+countNotSatisfies],*)
+(*Return[applyElemToRangeAndCount[workFlowMap[workflowName][[index]],ratingRange]]*)
+(*]*)
+(*]*)
+(*getTransformedRanges[ruleCondStr_,ratingRange_]:=Module[{condition},*)
+(*condition=ToExpression[ruleCondStr];*)
+(*Return[{*)
+(*condition&&ratingRange,*)
+(*Not[condition]&&ratingRange*)
+(*}]*)
+(*]*)
+(*applyElemToRangeAndCount[element_,ratingRange_]:=Module[{},*)
+(*If[*)
+(*UpperCaseQ[element],*)
+(*If[*)
+(*element=="A",*)
+(*Return[integerRangeCounter[ratingRange]],*)
+(*Return[0]],*)
+(*Return[countRatingsRangeForRules[element,1,ratingRange]]*)
+(*]*)
+(*]*)
+(*integerRangeCounter[range_]:=Module[*)
+(*{arraySymbols,count,reducedRange},*)
+(*arraySymbols = {x,m,a,s};*)
+(*count =1;*)
+(*reducedRange=Reduce[range,arraySymbols];*)
+(*For[i=1,i<=4,i++,*)
+(*count = count*Length[Solve[reducedRange[[i]],arraySymbols[[i]],Integers]];*)
+(*];*)
+(*Return[count]*)
+(*]*)
+
+
+(* ::Input:: *)
+(*countRatingsRangeForRules[*)
+(*"in",*)
+(*1,*)
+(*1<=x<=4000&&1<=m<=4000&&1<=a<=4000&&1<=s<=4000]*)

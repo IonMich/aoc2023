@@ -1,5 +1,6 @@
 **/inputs/
 .vscode/
+.DS_Store
 
 # C# ignore
 [Bb]in/
