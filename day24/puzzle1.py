@@ -33,15 +33,9 @@ num_intersections = 0
 # max_xy = 27
 min_xy = 200000000000000
 max_xy = 400000000000000
-with open("out.txt", "w") as file:
-    for i in range(num_particles):
-        for j in range(i+1, num_particles):
-            intersection = get_2d_ray_intersection(phase_space_data[i], phase_space_data[j])
-            intersects = False
-            if (intersection is not None) and is_in_box(intersection, ((min_xy, min_xy), (max_xy, max_xy))):
-                num_intersections += 1
-                intersects = True
-
-            file.write(f"{phase_space_data[i]} {phase_space_data[j]} {intersects}\n")
-
+for i in range(num_particles):
+    for j in range(i+1, num_particles):
+        intersection = get_2d_ray_intersection(phase_space_data[i], phase_space_data[j])
+        if (intersection is not None) and is_in_box(intersection, ((min_xy, min_xy), (max_xy, max_xy))):
+            num_intersections += 1
 print(num_intersections)
