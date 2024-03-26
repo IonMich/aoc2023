@@ -3,6 +3,9 @@ import sympy as sp
 with open("inputs/input.txt") as file:
     phase_space_data = file.read().split("\n")[:-1]
 
+phase_space_data = phase_space_data[:3]
+# 9 equations, 9 unknowns
+
 num_particles = len(phase_space_data)
 phase_space_data = [tuple(map(
     lambda y: tuple(map(
